@@ -13,6 +13,8 @@ from homeassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
 )
 
+SCAN_INTERVAL = timedelta(seconds=120)
+
 _LOGGER = logging.getLogger(__name__)
 
 async def async_setup_entry(hass, config_entry, async_add_entities):
@@ -25,8 +27,8 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
         await tank.fetch_data()
 
     # Create a coordinator to fetch data from the Mixergy API.
-    coordinator = DataUpdateCoordinator(hass, _LOGGER, name="sensor", update_method = async_update_data, update_interval = timedelta(seconds=30))
-
+    coordinator = DataUpdateCoordinator(hass, _LOGGER, name="sensor", update_method = async_update_data, update_interval = SCAN_INTERVAL)
+    
     await coordinator.async_config_entry_first_refresh()
 
     new_entities = []
