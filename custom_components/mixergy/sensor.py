@@ -36,6 +36,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     new_entities.append(HotWaterTemperatureSensor(coordinator, tank))
     new_entities.append(ColdestWaterTemperatureSensor(coordinator, tank))
     new_entities.append(ChargeSensor(coordinator, tank))
+    new_entities.append(TargetChargeSensor(coordinator, tank))
     new_entities.append(ElectricHeatSensor(coordinator, tank))
     new_entities.append(IndirectHeatSensor(coordinator, tank))
     new_entities.append(HeatPumpHeatSensor(coordinator,tank))
@@ -132,7 +133,32 @@ class ChargeSensor(SensorBase):
     @property
     def name(self):
           return f"Current Charge"
+          
+class TargetChargeSensor(SensorBase):
 
+    def __init__(self, coordinator, tank:Tank):
+        super().__init__(coordinator, tank)
+
+    @property
+    def unique_id(self):
+        return f"mixergy_{self._tank.serial_number}_target_charge"
+
+    @property
+    def unit_of_measurement(self):
+        return PERCENTAGE
+
+    @property
+    def state(self):
+        return self._tank.target_charge
+
+    @property
+    def icon(self):
+        return "hass:water-percent"
+
+    @property
+    def name(self):
+          return f"Target Charge"
+          
 class HotWaterTemperatureSensor(SensorBase):
 
     device_class = SensorDeviceClass.TEMPERATURE
