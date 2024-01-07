@@ -45,7 +45,9 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     new_entities.append(EnergySensor(tank))
     new_entities.append(TargetTemperatureSensor(coordinator, tank))
     new_entities.append(HolidayModeSensor(coordinator, tank))
-    
+    new_entities.append(AutoScheduleModeSensor(coordinator, tank))
+    new_entities.append(CleansingModeSensor(coordinator, tank))
+
     async_add_entities(new_entities)
 
 class SensorBase(CoordinatorEntity,SensorEntity):
@@ -350,7 +352,6 @@ class EnergySensor(IntegrationSensor):
     def icon(self):
         return "mdi:lightning-bolt"
 
-
 class HolidayModeSensor(BinarySensorBase):
 
     def __init__(self, coordinator, tank:Tank):
@@ -372,3 +373,49 @@ class HolidayModeSensor(BinarySensorBase):
     @property
     def name(self):
         return f"Holiday Mode"
+        
+class AutoScheduleModeSensor(BinarySensorBase):
+
+    def __init__(self, coordinator, tank:Tank):
+        super().__init__( coordinator, tank)
+        self._state = STATE_OFF
+
+    @property
+    def unique_id(self):
+        return f"mixergy_{self._tank.tank_id}_autoschedule_mode"
+
+    @property
+    def is_on(self):
+        return self._tank.in_autoschedule_mode
+
+    @property
+    def icon(self):
+        return "mdi:clock-outline"
+
+    @property
+    def name(self):
+        return f"AutoSchedule Mode"
+        
+class CleansingModeSensor(BinarySensorBase):
+
+    def __init__(self, coordinator, tank:Tank):
+        super().__init__( coordinator, tank)
+        self._state = STATE_OFF
+
+    @property
+    def unique_id(self):
+        return f"mixergy_{self._tank.tank_id}_cleansing_mode"
+
+    @property
+    def is_on(self):
+        return self._tank.in_cleansing_mode
+
+    @property
+    def icon(self):
+        return "mdi:water-sync"
+
+    @property
+    def name(self):
+        return f"Cleansing Mode"
+
+

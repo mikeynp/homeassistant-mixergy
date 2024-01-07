@@ -37,6 +37,8 @@ class Tank:
         self.firmware_version = "0.0.0"
         self._target_temperature = -1
         self._in_holiday_mode = False
+        self._in_autoschedule_mode = False
+        self._in_cleansing_mode = False
 
     @property
     def tank_id(self):
@@ -235,10 +237,15 @@ class Tank:
             # Source is only present when vacation is enabled it seems
             if "source" in current:
                 source = current["source"]
+                
                 vacation = source == "Vacation"
+                autoschedule = source == "AutoSchedule"
+                cleansing = source == "Cleansing"
 
             if vacation:
                 self._in_holiday_mode = True
+                self._in_autoschedule_mode = False
+                self._in_cleansing_mode = False
 
                 # Assume it's all off as the tank is in holiday mode
                 self._electric_heat_source = False
@@ -247,6 +254,8 @@ class Tank:
 
             else:
                 self._in_holiday_mode = False
+                self._in_autoschedule_mode = autoschedule
+                self._in_cleansing_mode = cleansing
 
                 heat_source = current["heat_source"]
                 heat_source_on = current["immersion"] == "On"
@@ -302,7 +311,7 @@ class Tank:
 
     def remove_callback(self, callback):
         self._callbacks.discard(callback)
-
+ 
     async def publish_updates(self):
         for callback in self._callbacks:
             callback()
@@ -322,7 +331,7 @@ class Tank:
     @property
     def charge(self):
         return self._charge
-
+        
     @property
     def indirect_heat_source(self):
         return self._indirect_heat_source
@@ -334,6 +343,14 @@ class Tank:
     @property
     def in_holiday_mode(self):
         return self._in_holiday_mode
+        
+    @property
+    def in_autoschedule_mode(self):
+        return self._in_autoschedule_mode
+        
+    @property
+    def in_cleansing_mode(self):
+        return self._in_cleansing_mode
 
     @property
     def heatpump_heat_source(self):
