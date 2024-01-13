@@ -36,7 +36,7 @@ class Tank:
         self._latest_measurement_url = ""
         self.model = ""
         self.firmware_version = "0.0.0"
-        self._target_temperature = -1
+        self._target_temperature = 0
         self._in_holiday_mode = False
         self._in_autoschedule_mode = False
         self._in_cleansing_mode = False
@@ -226,6 +226,8 @@ class Tank:
                 self._hass.bus.async_fire("mixergy_event", event_data)
 
             self._charge = new_charge
+            self._target_charge = 0
+            vacation = False
 
             # Fetch information about the current state of the heating.
 
@@ -233,12 +235,8 @@ class Tank:
 
             current = state["current"]
 
-            vacation = False
-
             if "target" in current:
-                self._target_charge = current["target"]
-            else:
-                self._target_charge = -1
+                self._target_charge = current["target"]              
             
             if "source" in current:
                 source = current["source"]
