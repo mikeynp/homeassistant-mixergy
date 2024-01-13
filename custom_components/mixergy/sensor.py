@@ -153,7 +153,7 @@ class TargetChargeSensor(SensorBase):
 
     @property
     def icon(self):
-        return "hass:water-percent"
+        return "hass:target"
 
     @property
     def name(self):
