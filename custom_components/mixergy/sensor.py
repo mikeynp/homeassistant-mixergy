@@ -1,6 +1,6 @@
 import logging
 from datetime import timedelta
-from homeassistant.const import PERCENTAGE, TEMP_CELSIUS, STATE_OFF, POWER_WATT
+from homeassistant.const import PERCENTAGE, UnitOfTemperature, STATE_OFF, UnitOfPower
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.components.integration.sensor import IntegrationSensor
@@ -176,7 +176,7 @@ class HotWaterTemperatureSensor(SensorBase):
 
     @property
     def unit_of_measurement(self):
-        return TEMP_CELSIUS
+        return UnitOfTemperature.CELSIUS
 
     @property
     def name(self):
@@ -200,7 +200,7 @@ class ColdestWaterTemperatureSensor(SensorBase):
 
     @property
     def unit_of_measurement(self):
-        return TEMP_CELSIUS
+        return UnitOfTemperature.CELSIUS
 
     @property
     def name(self):
@@ -223,7 +223,7 @@ class TargetTemperatureSensor(SensorBase):
 
     @property
     def unit_of_measurement(self):
-        return TEMP_CELSIUS
+        return UnitOfTemperature.CELSIUS
 
     @property
     def name(self):
@@ -359,7 +359,7 @@ class PowerSensor(SensorBase):
 
     @property
     def unit_of_measurement(self):
-        return POWER_WATT
+        return UnitOfPower.WATT
 
     @property
     def name(self):
