@@ -289,6 +289,10 @@ class HeatPumpHeatSensor(BinarySensorBase):
         return self._tank.heatpump_heat_source
 
     @property
+    def icon(self):
+        return "mdi:heat-pump"
+
+    @property
     def name(self):
         return f"HeatPump Heat"
 
