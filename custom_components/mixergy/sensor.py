@@ -48,6 +48,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     new_entities.append(HolidayModeSensor(coordinator, tank))
     new_entities.append(AutoScheduleModeSensor(coordinator, tank))
     new_entities.append(CleansingModeSensor(coordinator, tank))
+    new_entities.append(BoostModeSensor(coordinator, tank))
 
     async_add_entities(new_entities)
 
@@ -447,5 +448,27 @@ class CleansingModeSensor(BinarySensorBase):
     @property
     def name(self):
         return f"Cleansing Mode"
+             
+class BoostModeSensor(BinarySensorBase):
+
+    def __init__(self, coordinator, tank:Tank):
+        super().__init__( coordinator, tank)
+        self._state = STATE_OFF
+
+    @property
+    def unique_id(self):
+        return f"mixergy_{self._tank.tank_id}_boost_mode"
+
+    @property
+    def is_on(self):
+        return self._tank.in_boost_mode
+
+    @property
+    def icon(self):
+        return "mdi:water-plus"
+
+    @property
+    def name(self):
+        return f"Boost Mode"
 
 

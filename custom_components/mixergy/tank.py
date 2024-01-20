@@ -40,7 +40,8 @@ class Tank:
         self._in_holiday_mode = False
         self._in_autoschedule_mode = False
         self._in_cleansing_mode = False
-
+        self._in_boost_mode = False
+        
     @property
     def tank_id(self):
         return self._id
@@ -244,12 +245,14 @@ class Tank:
                 vacation = source == "Vacation"
                 autoschedule = source == "AutoSchedule"
                 cleansing = source == "Cleansing"
+                boost = (source == "BoostGauge" or source == "BoostServer") # can boost from tank gauge or remotely, e.g. via app
 
             if vacation:
                 self._in_holiday_mode = True
                 self._in_autoschedule_mode = False
                 self._in_cleansing_mode = False
-
+                self._in_boost_mode = False
+                
                 # Assume it's all off as the tank is in holiday mode
                 self._electric_heat_source = False
                 self._heatpump_heat_source = False
@@ -259,6 +262,7 @@ class Tank:
                 self._in_holiday_mode = False
                 self._in_autoschedule_mode = autoschedule
                 self._in_cleansing_mode = cleansing
+                self._in_boost_mode = boost
 
                 heat_source = current["heat_source"]
                 heat_source_on = current["immersion"] == "On"
@@ -359,6 +363,10 @@ class Tank:
     def in_cleansing_mode(self):
         return self._in_cleansing_mode
 
+    @property
+    def in_boost_mode(self):
+        return self._in_boost_mode
+        
     @property
     def heatpump_heat_source(self):
         return self._heatpump_heat_source
