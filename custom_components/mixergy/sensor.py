@@ -376,7 +376,8 @@ class EnergySensor(IntegrationSensor):
             unit_prefix="k",
             unit_time="h",
             integration_method="left",
-            unique_id=f"mixergy_{tank.tank_id}_energy"
+            unique_id=f"mixergy_{tank.tank_id}_energy",
+            max_sub_interval=None
         )
 
     @property
