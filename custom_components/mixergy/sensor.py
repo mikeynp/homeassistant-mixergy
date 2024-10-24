@@ -232,8 +232,6 @@ class TargetTemperatureSensor(SensorBase):
 
 class IndirectHeatSensor(BinarySensorBase):
 
-    device_class = BinarySensorDeviceClass.HEAT
-
     def __init__(self, coordinator, tank:Tank):
         super().__init__( coordinator, tank)
 
@@ -255,8 +253,6 @@ class IndirectHeatSensor(BinarySensorBase):
 
 class ElectricHeatSensor(BinarySensorBase):
 
-    device_class = SensorDeviceClass.ENERGY
-
     def __init__(self, coordinator, tank:Tank):
         super().__init__( coordinator, tank)
         self._state = STATE_OFF
@@ -274,8 +270,6 @@ class ElectricHeatSensor(BinarySensorBase):
         return f"Electric Heat"
 
 class HeatPumpHeatSensor(BinarySensorBase):
-
-    device_class = SensorDeviceClass.ENERGY
 
     def __init__(self, coordinator, tank:Tank):
         super().__init__( coordinator, tank)
