@@ -24,10 +24,10 @@ class Tank:
         self._hass = hass
         self._callbacks = set()
         self._loop = asyncio.get_event_loop()
-        self._hot_water_temperature = -1
-        self._coldest_water_temperature = -1
-        self._charge = -1
-        self._target_charge = -1
+        self._hot_water_temperature = 0
+        self._coldest_water_temperature = 0
+        self._charge = 0
+        self._target_charge = 0
         self._indirect_heat_source = False
         self._electric_heat_source = False
         self._heatpump_heat_source = False
