@@ -229,7 +229,10 @@ class Tank:
             self._charge = new_charge
             self._target_charge = 0
             vacation = False
-
+            autoschedule = False
+            cleansing = False
+            boost = False
+            
             # Fetch information about the current state of the heating.
 
             state = json.loads(tank_result["state"])
